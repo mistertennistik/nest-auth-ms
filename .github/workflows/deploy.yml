@@ -1,0 +1,46 @@
+name: Deploy NestJS Application
+
+on:
+  push:
+    tags:
+      - "deploy-*"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Vérifie le code du dépôt
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Configure Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # Installe les dépendances
+    - name: Install dependencies
+      run: npm install
+
+    # Exécute les tests
+    - name: Run tests
+      run: npm run test
+
+    # Déploie sur le VPS
+    - name: Deploy to VPS
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        VPS_HOST: ${{ secrets.VPS_HOST }}
+        VPS_USER: ${{ secrets.VPS_USER }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+        scp -i private_key.pem -r . $VPS_USER@$VPS_HOST:/path/to/project
+        ssh -i private_key.pem $VPS_USER@$VPS_HOST <<EOF
+        cd /path/to/project
+        npm install --production
+        pm2 restart app
+        EOF
+        rm private_key.pem
