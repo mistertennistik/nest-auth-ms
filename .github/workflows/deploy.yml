@@ -22,7 +22,7 @@ jobs:
 
     # Installe les dépendances
     - name: Install dependencies
-      run: npm install
+      run: cd nest-auth-ms && npm install
 
     # Exécute les tests
     - name: Run tests
