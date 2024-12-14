@@ -39,7 +39,6 @@ jobs:
         VPS_HOST: ${{ secrets.VPS_HOST }}
         VPS_USER: ${{ secrets.VPS_USER }}
       run: |
-        ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
         echo "$SSH_PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem -r . $VPS_USER@$VPS_HOST:~
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r . $VPS_USER@$VPS_HOST:~
