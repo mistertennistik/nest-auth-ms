@@ -54,10 +54,8 @@ jobs:
           # Construire l'image Docker
           docker build -t nest-auth-ms:latest .
 
-          # Redémarrer le conteneur existant
-          docker stop nest-auth-ms || true
-          docker rm nest-auth-ms || true
-          docker run -d --name nest-auth-ms -p 3000:3000 nest-auth-ms:latest
+          docker compose -f ~/reverse-proxy/docker-compose.yml up auth-ms -d
+          
         EOF
         rm -f private_key.pem
 
