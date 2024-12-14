@@ -1,0 +1,21 @@
+services:
+  auth-ms:
+    image: nest-auth-ms 
+    ports:
+      - 3000:3000
+    networks:
+      - shared_network  # Rejoint le réseau existant
+
+  db:
+    image: postgres:13
+    container_name: app_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    networks:
+      - shared_network  # Rejoint le réseau existant
+
+networks:
+  shared_network:
+    external: true  # Déclare que le réseau est externe (créé par le premier fichier)

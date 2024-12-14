@@ -42,10 +42,11 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
         ls
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r Dockerfile $VPS_USER@$VPS_HOST:~/auth-ms
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r package*.json $VPS_USER@$VPS_HOST:~/auth-ms
+        scp -i private_key.pem -o StrictHostKeyChecking=no Dockerfile $VPS_USER@$VPS_HOST:~/auth-ms
+        scp -i private_key.pem -o StrictHostKeyChecking=no package*.json $VPS_USER@$VPS_HOST:~/auth-ms
         scp -i private_key.pem -o StrictHostKeyChecking=no -r src/ $VPS_USER@$VPS_HOST:~/auth-ms
-        scp -i private_key.pem -o StrictHostKeyChecking=no -r tsconfig*.json $VPS_USER@$VPS_HOST:~/auth-ms
+        scp -i private_key.pem -o StrictHostKeyChecking=no tsconfig*.json $VPS_USER@$VPS_HOST:~/auth-ms
+        scp -i private_key.pem -o StrictHostKeyChecking=no docker-compose.yml $VPS_USER@$VPS_HOST:~/auth-ms
 
         # Se connecter et reconstruire l'image Docker
         ssh -i private_key.pem -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
@@ -54,8 +55,8 @@ jobs:
           # Construire l'image Docker
           docker build -t nest-auth-ms:latest .
 
-          docker compose -f ~/reverse-proxy/docker-compose.yml up auth-ms -d
-          
+          docker compose up -d
+
         EOF
         rm -f private_key.pem
 
