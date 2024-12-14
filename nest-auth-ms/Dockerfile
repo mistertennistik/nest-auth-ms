@@ -7,7 +7,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY ./nest-auth-ms .
+COPY . .
 
 RUN npm run build
 
