@@ -4,7 +4,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - shared_network  # Rejoint le réseau existant
+      - reverse-proxy_shared_network   # Rejoint le réseau existant
 
   db:
     image: postgres:13
@@ -14,8 +14,8 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
     networks:
-      - shared_network  # Rejoint le réseau existant
+      - reverse-proxy_shared_network   # Rejoint le réseau existant
 
 networks:
-  shared_network:
+  reverse-proxy_shared_network :
     external: true  # Déclare que le réseau est externe (créé par le premier fichier)
