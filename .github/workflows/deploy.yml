@@ -55,6 +55,7 @@ jobs:
           # Construire l'image Docker
           docker build -t nest-auth-ms:latest .
 
+          docker compose down
           docker compose up -d
 
         EOF
