@@ -45,6 +45,7 @@ jobs:
         scp -i private_key.pem -o StrictHostKeyChecking=no -r Dockerfile $VPS_USER@$VPS_HOST:~/auth-ms
         scp -i private_key.pem -o StrictHostKeyChecking=no -r package*.json $VPS_USER@$VPS_HOST:~/auth-ms
         scp -i private_key.pem -o StrictHostKeyChecking=no -r src/ $VPS_USER@$VPS_HOST:~/auth-ms
+        scp -i private_key.pem -o StrictHostKeyChecking=no -r tsconfig*.json $VPS_USER@$VPS_HOST:~/auth-ms
 
         # Se connecter et reconstruire l'image Docker
         ssh -i private_key.pem -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
